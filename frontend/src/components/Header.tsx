@@ -1,11 +1,10 @@
 import React from 'react';
 
 interface HeaderProps {
-  onSettingsClick: () => void;
   onHelpClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSettingsClick, onHelpClick }) => {
+const Header: React.FC<HeaderProps> = ({ onHelpClick }) => {
   return (
     <header className="header">
       <div className="header-content">
@@ -17,13 +16,6 @@ const Header: React.FC<HeaderProps> = ({ onSettingsClick, onHelpClick }) => {
             title="Help & Setup Guide"
           >
             ❓
-          </button>
-          <button 
-            className="settings-toggle-button"
-            onClick={onSettingsClick}
-            title="Settings"
-          >
-            ⚙️
           </button>
         </div>
       </div>

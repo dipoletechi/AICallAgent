@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { UserSettings } from '../types/settings';
 
 interface CallInterfaceProps {
   onCallStatusChange: (status: string) => void;
-  userSettings: UserSettings;
 }
 
-const CallInterface: React.FC<CallInterfaceProps> = ({ onCallStatusChange, userSettings }) => {
+const CallInterface: React.FC<CallInterfaceProps> = ({ onCallStatusChange }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<{ message: string; type: 'success' | 'error' | 'loading' } | null>(null);
@@ -106,9 +104,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({ onCallStatusChange, userS
           phoneNumber,
           ...(mainProvider === 'twilio' && { musicType }),
           ...(mainProvider === 'vapi' && { customMessage }),
-          ...(callProvider === 'twilio-custom' && { customMessage: customIntro }),
-          // Include user settings for backend to use
-          settings: userSettings
+          ...(callProvider === 'twilio-custom' && { customMessage: customIntro })
         }),
       });
 

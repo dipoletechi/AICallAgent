@@ -50,13 +50,13 @@ function App() {
           <div className="notification-content">
             <span className="notification-icon">⚠️</span>
             <span className="notification-text">
-              Click the ⚙️ Settings button to configure your API credentials.
+              Click the help button how to configure your API credentials.
             </span>
             <button 
               className="notification-settings-btn"
-              onClick={handleSettingsClick}
+              onClick={handleHelpClick}
             >
-              ⚙️ Settings
+              ❓ Help
             </button>
           </div>
         </div>

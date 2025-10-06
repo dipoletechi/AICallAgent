@@ -4,11 +4,13 @@ import CallInterface from './components/CallInterface';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Settings from './components/Settings';
+import Help from './components/Help';
 import { UserSettings } from './types/settings';
 import { loadSettings } from './utils/localStorage';
 
 function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isHelpOpen, setIsHelpOpen] = useState<boolean>(false);
   const [userSettings, setUserSettings] = useState<UserSettings>(loadSettings());
 
   const handleSettingsClick = () => {
@@ -23,9 +25,17 @@ function App() {
     setUserSettings(settings);
   };
 
+  const handleHelpClick = () => {
+    setIsHelpOpen(true);
+  };
+
+  const handleHelpClose = () => {
+    setIsHelpOpen(false);
+  };
+
   return (
     <div className="App">
-      <Header onSettingsClick={handleSettingsClick} />
+      <Header onSettingsClick={handleSettingsClick} onHelpClick={handleHelpClick} />
       <main className="main-content">
         <CallInterface 
           onCallStatusChange={() => {}} 
@@ -37,6 +47,10 @@ function App() {
         isOpen={isSettingsOpen}
         onClose={handleSettingsClose}
         onSettingsChange={handleSettingsChange}
+      />
+      <Help 
+        isOpen={isHelpOpen}
+        onClose={handleHelpClose}
       />
     </div>
   );

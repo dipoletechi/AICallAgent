@@ -38,7 +38,15 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose, onSettingsChange }
   };
 
   const handleReset = () => {
-    setSettings(loadSettings());
+    const emptySettings: UserSettings = {
+      TWILIO_ACCOUNT_SID: '',
+      TWILIO_AUTH_TOKEN: '',
+      TWILIO_PHONE_NUMBER: '',
+      VAPI_API_KEY: '',
+      VAPI_ASSISTANT_ID: '',
+      VAPI_PHONE_NUMBER_ID: '',
+    };
+    setSettings(emptySettings);
     setIsDirty(true);
   };
 

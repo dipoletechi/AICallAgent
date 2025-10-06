@@ -75,6 +75,24 @@ Create a `.env` file in the `backend/` directory:
 cp backend/env.example backend/.env
 ```
 
+Edit `backend/.env` with your Twilio credentials:
+
+```env
+# Twilio Configuration
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_AUTH_TOKEN=your_actual_auth_token
+TWILIO_PHONE_NUMBER=+1234567890
+
+# Base URL for webhooks (use ngrok for local development)
+BASE_URL=https://your-ngrok-url.ngrok.io
+
+# Frontend URL for CORS
+FRONTEND_URL=http://localhost:3000
+
+# Server Configuration
+PORT=5000
+```
+
 ### 3. Get Twilio Credentials
 
 1. Sign up at [twilio.com](https://www.twilio.com)

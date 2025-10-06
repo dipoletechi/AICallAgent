@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Help from './components/Help';
 
 function App() {
+  const [callStatus, setCallStatus] = useState<string>('');
   const [isHelpOpen, setIsHelpOpen] = useState<boolean>(false);
 
   const handleHelpClick = () => {
@@ -19,11 +20,8 @@ function App() {
   return (
     <div className="App">
       <Header onHelpClick={handleHelpClick} />
-      
       <main className="main-content">
-        <CallInterface 
-          onCallStatusChange={() => {}} 
-        />
+        <CallInterface onCallStatusChange={setCallStatus} />
       </main>
       <Footer />
       <Help 

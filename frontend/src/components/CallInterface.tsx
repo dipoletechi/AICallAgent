@@ -40,10 +40,10 @@ const CallInterface: React.FC<CallInterfaceProps> = ({ onCallStatusChange }) => 
     onCallStatusChange(message);
   };
 
-  // const hideStatus = () => {
-  //   setStatus(null);
-  //   onCallStatusChange('');
-  // };
+  const hideStatus = () => {
+    setStatus(null);
+    onCallStatusChange('');
+  };
 
   // Check Vapi status on component mount
   React.useEffect(() => {
@@ -112,7 +112,7 @@ const CallInterface: React.FC<CallInterfaceProps> = ({ onCallStatusChange }) => 
 
       if (response.ok) {
         const callId = data.callSid || data.callId;
-        // const provider = data.provider || callProvider;
+        const provider = data.provider || callProvider;
         const musicInfo = data.musicType ? ` (Music: ${data.musicType === 'traditional-first' ? 'Vande Mataram' : data.musicType === 'custom' ? 'Custom Message' : 'Mafia - 51 Glorious Days'})` : '';
         showStatus(`${mainProvider === 'vapi' ? 'AI' : 'Twilio'} call initiated successfully! Call ID: ${callId}${musicInfo}`, 'success');
       } else {

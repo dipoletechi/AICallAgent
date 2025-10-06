@@ -1,24 +1,17 @@
 const axios = require('axios');
 
 class VapiService {
-    constructor(settings = null) {
-        if (settings) {
-            this.apiKey = settings.VAPI_API_KEY;
-            this.assistantId = settings.VAPI_ASSISTANT_ID;
-            this.phoneNumberId = settings.VAPI_PHONE_NUMBER_ID;
-        } else {
-            this.apiKey = process.env.VAPI_API_KEY;
-            this.assistantId = process.env.VAPI_ASSISTANT_ID;
-            this.phoneNumberId = process.env.VAPI_PHONE_NUMBER_ID;
-        }
+    constructor() {
+        this.apiKey = process.env.VAPI_API_KEY;
+        this.assistantId = process.env.VAPI_ASSISTANT_ID;
         this.baseURL = 'https://api.vapi.ai';
         
         if (!this.apiKey) {
-            console.warn('⚠️  VAPI_API_KEY not found');
+            console.warn('⚠️  VAPI_API_KEY not found in environment variables');
         }
         
         if (!this.assistantId) {
-            console.warn('⚠️  VAPI_ASSISTANT_ID not found');
+            console.warn('⚠️  VAPI_ASSISTANT_ID not found in environment variables');
         }
     }
 
@@ -40,7 +33,7 @@ class VapiService {
                 customer: {
                     number: phoneNumber
                 },
-                phoneNumberId: this.phoneNumberId
+                phoneNumberId: process.env.VAPI_PHONE_NUMBER_ID || "74252b39-1da6-4515-80b1-17c4a06919be"
             };
 
             // Add custom message if provided

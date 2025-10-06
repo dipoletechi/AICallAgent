@@ -2,6 +2,7 @@ const express = require('express');
 const twilio = require('twilio');
 const cors = require('cors');
 const VapiService = require('./services/vapiService');
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -189,7 +190,8 @@ app.get('/api/health', (req, res) => {
         status: 'OK', 
         timestamp: new Date().toISOString(),
         service: 'AI Call Agent Backend',
-        message: 'Backend is running. Configure credentials in the .env file.'
+        twilio: !!client,
+        vapi: vapiService.isConfigured()
     });
 });
 
@@ -274,19 +276,11 @@ app.post('/api/call', async (req, res) => {
             return res.status(400).json({ error: 'Invalid phone number format' });
         }
 
-        // Check if Twilio credentials are configured in environment variables
-        if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
-            return res.status(400).json({ 
-                error: 'Twilio credentials not configured',
-                details: 'Please configure your Twilio credentials in the backend .env file. See the help documentation for setup instructions.'
-            });
-        }
-
-        // Use the global Twilio client (uses environment variables)
+        // Check if Twilio client is available
         if (!client) {
-            return res.status(500).json({ 
-                error: 'Twilio client not initialized',
-                details: 'Please check your Twilio credentials in the .env file'
+            return res.status(503).json({ 
+                error: 'Twilio service not configured',
+                details: 'Please set up your Twilio credentials in the .env file'
             });
         }
 
@@ -336,11 +330,11 @@ app.post('/api/call/vapi', async (req, res) => {
             return res.status(400).json({ error: 'Invalid phone number format' });
         }
 
-        // Check if Vapi credentials are configured in environment variables
-        if (!process.env.VAPI_API_KEY || !process.env.VAPI_ASSISTANT_ID || !process.env.VAPI_PHONE_NUMBER_ID) {
-            return res.status(400).json({ 
-                error: 'Vapi credentials not configured',
-                details: 'Please configure your Vapi credentials in the backend .env file. See the help documentation for setup instructions.'
+        // Check if Vapi is configured
+        if (!vapiService.isConfigured()) {
+            return res.status(503).json({ 
+                error: 'Vapi service not configured',
+                details: 'Please set up your Vapi API key and Assistant ID in the .env file'
             });
         }
 
@@ -350,7 +344,7 @@ app.post('/api/call/vapi', async (req, res) => {
             vapiOptions.customMessage = customMessage;
         }
 
-        // Use the global VapiService instance (uses environment variables)
+        // Make the call using Vapi
         const result = await vapiService.createCall(phoneNumber, vapiOptions);
 
         console.log(`Vapi AI call initiated to ${phoneNumber}, Call ID: ${result.callId}`);

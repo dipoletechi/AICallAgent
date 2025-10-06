@@ -195,6 +195,41 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Login endpoint
+app.post('/api/auth/login', (req, res) => {
+    try {
+        const { username, password } = req.body;
+        
+        if (!username || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Username and password are required' 
+            });
+        }
+
+        const validUsername = process.env.LOGIN_USERNAME || 'admin';
+        const validPassword = process.env.LOGIN_PASSWORD || 'Dipole@1';
+
+        if (username === validUsername && password === validPassword) {
+            res.json({ 
+                success: true, 
+                message: 'Login successful' 
+            });
+        } else {
+            res.status(401).json({ 
+                success: false, 
+                message: 'Invalid username or password' 
+            });
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Internal server error' 
+        });
+    }
+});
+
 // Vapi configuration status
 app.get('/api/vapi/status', (req, res) => {
     const config = vapiService.getConfigStatus();
